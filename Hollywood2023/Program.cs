@@ -1,19 +1,45 @@
-﻿namespace Hollywood2023
+﻿using System.Diagnostics;
+
+namespace Hollywood2023
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            DrawFace(5, 5,true);
+            int frameCounter = 0;
+            while(true)
+            {
+                frameCounter++;
+                System.Threading.Thread.Sleep(500);
+                Console.Clear();
 
-            
+               if(frameCounter <20)
+                {
+                    CarDrivingScene(frameCounter);
+                }
+               else if(frameCounter<30)
+                {
+                    DrawFace(5, 3, false);
+                    if (frameCounter % 2 == 0)
+                        DrawFace(5, 3, true);
+                }
+               else if(frameCounter <50)
+                {
+                    CarDrivingScene(frameCounter - 30, 5);
+                }
 
-            Console.SetCursorPosition(1, Console.WindowHeight - 1);
-            
-            
-            DrawFace(20, 5,false);
+
+            }
         }
 
+        static void CarDrivingScene(int frameNumber, int carAmount = 1)
+        {
+            for (int i = 0; i < carAmount; i++)
+            {
+                DrawCar(frameNumber+i, 15+3*i);
+            }
+            
+        }
 
         static void DrawFace(int x, int y, bool knipoogt)
         {
@@ -24,7 +50,9 @@
             else
                 DrawCharacter(x + 4, y + 2, 'O');
             DrawCharacter(x + 3, y + 4, 'L');
-            DrawRectangle(x + 1, y + 6, '-', 4, 1);
+            Console.ForegroundColor = ConsoleColor.Red;
+            DrawRectangle(x + 1, y + 6, '-', 4, 2);
+            Console.ResetColor();
         }
         static void DrawRectangle(int x,int y, char character,int length, int height)
         {
@@ -48,5 +76,18 @@
                 }
             }
         }
+
+        static void DrawCar(int x, int y)
+        {
+            Console.BackgroundColor = ConsoleColor.Yellow;
+            DrawRectangle( x, y + 6, ' ',20, 4);
+            Console.ResetColor();
+            Console.BackgroundColor = ConsoleColor.Blue;
+            DrawRectangle(x + 17, y, '|', 1, 6);
+            Console.ResetColor();
+            DrawCharacter(x + 3, y + 10, 'O');
+            DrawCharacter(x + 15, y + 10, 'O');
+        }
+
     }
 }
